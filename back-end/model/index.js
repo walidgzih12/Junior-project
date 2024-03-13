@@ -11,7 +11,7 @@ const getUserByUsername = (username) => {
             }
         });
     });
-};
+ };
 const postUsers = (user) => {
     return new Promise((resolve, reject) => {
         const sql = "INSERT INTO user (username, Tel, password, image) VALUES (?, ?, ?, ?)";
