@@ -2,7 +2,7 @@ import Log from './componenet/Login/Login.js';
 import Home from './componenet/home/Home.js'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-function App() {
+function App() {  
   return (
     <Router> 
       <Routes>

@@ -93,14 +93,41 @@ const getProductsByCategory = async (req, res) => {
 
 const getProductsByUserId = async (req, res) => {
     try {
-        const userId = req.params.userId;
-        const products = await model.getProductsByUserId(userId);
-        res.status(200).json(products);
+      const userId = req.params.userId;
+      const products = await model.getProductsByUserId(userId);
+      res.status(200).json(products);
     } catch (error) {
-        console.error("Error retrieving products by user ID:", error);
-        res.status(500).json({ error: "Internal server error" });
+      console.error("Error retrieving products by user ID:", error);
+      res.status(500).json({ error: "Internal server error" });
     }
-};
+  };
 
-module.exports = { getUserByUsername, postUser,loginUser,getAllProducts,postProduct,getProductsByCategory,getProductsByUserId };
- 
+  const updateProductById = async (req, res) => {
+    try {
+      const productId = req.params.productId;
+      const { image, productname, description, category, date, delivery } = req.body;
+      const updatedProduct = { image, productname, description, category, date, delivery };
+  
+      await model.updateProductById(productId, updatedProduct);
+      res.status(200).json({ message: "Product updated successfully" });
+    } catch (error) {
+      console.error("Error updating product:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  };
+  const deleteProductById = async (req, res) => {
+    try {
+      const productId = req.params.productId;
+  
+      await model.deleteProductById(productId);
+      res.status(200).json({ message: "Product deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  };
+module.exports = { getUserByUsername, postUser,loginUser,
+    getAllProducts,postProduct,getProductsByCategory,
+    getProductsByUserId , updateProductById,
+    deleteProductById
+};

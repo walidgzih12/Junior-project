@@ -7,6 +7,9 @@ router.post('/login',rout.loginUser)
 router.get('/allproducts', rout.getAllProducts);
 router.post('/products', rout.postProduct);
 router.get('/products/:category', rout.getProductsByCategory);
-router.get('/products/user/:userId', rout.getProductsByUserId); // New route
+router.get('/products/user/:userId', rout.getProductsByUserId);
+router.put('/products/:productId', rout.updateProductById);
+router.delete('/products/:productId', rout.deleteProductById); 
+
 
 module.exports=router;      

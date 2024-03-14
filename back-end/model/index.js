@@ -65,24 +65,49 @@ const getProductsByCategory = (category) => {
         });
     });
 };
-const getProductsByUserId = (userId) => {
+
+function getProductsByUserId(userId) {
     return new Promise((resolve, reject) => {
-        const sql = `
-            SELECT p.*
-            FROM product p
-            INNER JOIN user u ON p.idproduct = u.product_idproduct
-            WHERE u.iduser = ?;
-        `;
-        connection.query(sql, [userId], (err, results) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(results);
-            }
-        });
+      const query = "SELECT * FROM products WHERE user_id = ?";
+      connection.query(query, [userId], (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
     });
+  }
+  function updateProductById(productId, updatedProduct) {
+    return new Promise((resolve, reject) => {
+      const { image, productname, description, category, date, delivery } = updatedProduct;
+      const sql = "UPDATE product SET image = ?, productname = ?, description = ?, category = ?, date = ?, delivery = ? WHERE id = ?";
+      const values = [image, productname, description, category, date, delivery, productId];
+      connection.query(sql, values, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  }
+
+  function deleteProductById(productId) {
+    return new Promise((resolve, reject) => {
+      const sql = "DELETE FROM product WHERE id = ?";
+      connection.query(sql, [productId], (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  }
+  
+module.exports = { getUserByUsername, postUsers ,
+    getAllProducts,postProduct ,
+    getProductsByCategory,getProductsByUserId,
+    updateProductById,deleteProductById
 };
-
-
-module.exports = { getUserByUsername, postUsers ,getAllProducts,postProduct ,getProductsByCategory,getProductsByUserId};
-   

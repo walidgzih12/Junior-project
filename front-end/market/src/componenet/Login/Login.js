@@ -10,6 +10,22 @@ function Login() {
  const [password ,setPassword]=useState('')
  const [image,setImage] = useState('')
  
+ const handleLogin = () => {
+  axios.post('http://localhost:3050/api/login', {
+      username: username,
+      password: password,
+    })
+    .then((response) => {
+      const userId = response.data.userId; 
+      console.log("Logged in successfully with user ID:", userId);
+      navigate('/home', { state: { userId } }); 
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("An error occurred while logging in. Please try again.");
+    });
+};
+
  const handleSignup = () => {
   axios.post('http://localhost:3050/api/postusers', {
       username: username,
@@ -75,13 +91,13 @@ useEffect(() => {
         </div>
         <div className="login-signup-content">
           <div className="input-name">
-            <h2>Username</h2>
+            <h2 >Username</h2>
           </div>
-          <input type="text" name="username" value="" className="field-input" />
+          <input type="text" name="username"  value={username} onChange={e=>setUsername(e.target.value)} className="field-input" />
           <div className="input-name input-margin">
             <h2>Password</h2>
           </div>
-          <input type="text" name="password" value="" className="field-input" />
+          <input type="text" name="password"  value={password} onChange={e=>setUsername(e.target.value)} className="field-input" />
           <div className="input-r">
             <div className="check-input">
               <input type="checkbox" id="remember-me-2" name="rememberme" value="" className="checkme" />
@@ -89,7 +105,7 @@ useEffect(() => {
             </div>
             <div className="rememberme"><label htmlFor="remember-me-2">Remember Me</label></div>
           </div>
-          <button className="submit-btn">Enter</button>
+          <button className="submit-btn" onClick={handleLogin}>Enter</button>
           <div className="forgot-pass">
             <a href="#">Forgot Password?</a>
           </div>
@@ -105,7 +121,7 @@ useEffect(() => {
           </div>
           <input type="text" name="username" value={username} onChange={e=>setUsername(e.target.value)} className="field-input" />
           <div className="input-name input-margin">
-            <h2>TEL N° </h2>
+            <h2>TEL NÂ° </h2>
           </div>
           <input type="tel" name="Tel"  value={Tel} onChange={e=>setTel(e.target.value)}className="field-input" />
           <div className="input-name input-margin">
