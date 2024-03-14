@@ -51,4 +51,56 @@ const loginUser = async(req,res)=>{
     res.status(500).send(err)
     }
   };
-module.exports = { getUserByUsername, postUser,loginUser };
+
+
+  const getAllProducts = async (req, res) => {
+    try {
+        const products = await model.getAllProducts();
+        res.status(200).json(products);
+    } catch (error) {
+        console.error("Error retrieving products:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+
+const postProduct = async (req, res) => {
+    try {
+        const { image, productname, description, category, date, delivery } = req.body;
+        
+        const formattedDate = new Date(date).toISOString().slice(0, 10);
+
+        const newProduct = { image, productname, description, category, date: formattedDate, delivery };
+        await model.postProduct(newProduct);
+        res.status(201).json({ message: "Product created successfully" });
+    } catch (error) {
+        console.error("Error creating product:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+
+const getProductsByCategory = async (req, res) => {
+    try {
+        const category = req.params.category;
+        const products = await model.getProductsByCategory(category);
+        res.status(200).json(products);
+    } catch (error) {
+        console.error("Error retrieving products by category:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+const getProductsByUserId = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const products = await model.getProductsByUserId(userId);
+        res.status(200).json(products);
+    } catch (error) {
+        console.error("Error retrieving products by user ID:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+module.exports = { getUserByUsername, postUser,loginUser,getAllProducts,postProduct,getProductsByCategory,getProductsByUserId };
+ 
